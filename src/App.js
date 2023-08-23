@@ -18,16 +18,15 @@ function App() {
   const [balance, setBalance] = useState(0);
   const [selectedToken, setSelectedToken] = useState("");
   const [status, setStatus] = useState("");
-  const [usdtAmount, setUsdtAmount] = useState();
+  const [usdtAmount, setUsdtAmount] = useState(0);
   // const [usdcAmount, setUsdcAmount] = useState(0);
   const [isApproved, setIsApproved] = useState(false);
   const [isTokenImported, setIsTokenImported] = useState(false);
   const tokenValue = 0.13; // 13 cents
   const [walletAddress, setWalletAddress] = useState("");
+  const [isHovered, setIsHovered] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-
   const images = [
     "crypto-image-1.png",
     "crypto-image-2.png",
@@ -58,7 +57,7 @@ function App() {
       try {
         /* TronWeb is installed */
 
-        const accounts = window.tronWeb.defaultAddress.base58;
+        const accounts = window.tronWeb.defaultAddress.base58
         setWalletAddress(accounts);
         console.log(accounts);
       } catch (err) {
@@ -70,10 +69,13 @@ function App() {
       window.open("https://www.tronlink.org/dlDetails/", "_blank");
     }
   };
+
+
   const getCurrentWalletConnected = async () => {
     if (typeof window != "undefined" && typeof window.tronWeb != "undefined") {
       try {
-        const accounts = window.tronWeb.defaultAddress.base58;
+      
+        const accounts = window.tronWeb.defaultAddress.base58
         if (accounts.length > 0) {
           setWalletAddress(accounts);
           console.log(accounts);
@@ -104,27 +106,53 @@ function App() {
     }
   };
 
+
+  // const handleAmountChange = (e) => {
+  //   const amount = parseFloat(e.target.value);
+  //   const minAmoutValue = 5000;
+  //   setUsdtAmount(amount);
+
+  //   if (e.target.value < minAmoutValue) {
+  //     const amount_record_input = document.getElementById("amount_record");
+  //     amount_record_input.value = minAmoutValue;
+
+  //     const errorDiv = document.querySelector(".amount_record_error");
+
+  //     // Set the error message
+  //     const errorMessage = "Amount should greater than 5000"; // Replace this with your desired error message
+  //     errorDiv.textContent = errorMessage;
+  //     // setUsdtAmount(minAmoutValue);
+  //   } else {
+  //     const errorDiv = document.querySelector(".amount_record_error");
+
+  //     // Make the content empty
+  //     errorDiv.textContent = "";
+  //     // setUsdtAmount(amount);
+  //   }
+  // };
+
+
   const handleAmountChange = (e) => {
     const amount = parseFloat(e.target.value);
-    const minAmoutValue = 0;
-    setUsdtAmount(amount);
+    const maxAmoutValue = 999;
 
-    if (e.target.value < minAmoutValue) {
+    if (e.target.value > maxAmoutValue) {
       const amount_record_input = document.getElementById("amount_record");
-      amount_record_input.value = minAmoutValue;
+      amount_record_input.value = maxAmoutValue;
 
       const errorDiv = document.querySelector(".amount_record_error");
 
       // Set the error message
-      const errorMessage = "Amount should greater than 0"; // Replace this with your desired error message
+      const errorMessage = "Amount should not be greater than 999"; // Replace this with your desired error message
       errorDiv.textContent = errorMessage;
-      // setUsdtAmount(minAmoutValue);
+
+      setUsdtAmount(maxAmoutValue);
     } else {
       const errorDiv = document.querySelector(".amount_record_error");
 
       // Make the content empty
       errorDiv.textContent = "";
-      // setUsdtAmount(amount);
+      setUsdtAmount(amount);
     }
   };
 
@@ -135,7 +163,7 @@ function App() {
       return calculatedValue;
     }
   };
-  const preSaleAddress = "TTFUjzFVWE4BZF7552QGH9m7c4xM9coZyM";
+  const preSaleAddress = "TRBMTYBh6wTYr2pEkWkicWNTLL8UCDgXTC";
 
   const approve = async () => {
     /* const tokenvalueElement = document.getElementById("amount_token_value");
@@ -157,58 +185,56 @@ function App() {
 
         // const radio_button = document.getElementById("USDT");
 
-        //   if (tokenNumber == 1) {
-        //      const tronWeb = window.tronWeb;
+      //   if (tokenNumber == 1) {
+      //      const tronWeb = window.tronWeb;
 
-        // // Contract address of the TRC20 token (e.g., USDT)
-        // const usdcContractAddress = 'TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8';
+      // // Contract address of the TRC20 token (e.g., USDT)
+      // const usdcContractAddress = 'TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8';
 
-        // // const senderAddress = await tronWeb.defaultAddress.base58;
-        // const senderAddress = window.tronWeb.defaultAddress.base58;
+      // // const senderAddress = await tronWeb.defaultAddress.base58;
+      // const senderAddress = window.tronWeb.defaultAddress.base58;
 
-        // // Create a contract instance using the token address and ABI
-        // const tokenContract = tronWeb.contract(usdcABI, usdcContractAddress);
+      // // Create a contract instance using the token address and ABI
+      // const tokenContract = tronWeb.contract(usdcABI, usdcContractAddress);
 
-        // // Convert the amount to approve to token units (considering token decimals)
-        // const amountInTokenUnits = tronWeb.toSun(usdtAmount);
+      // // Convert the amount to approve to token units (considering token decimals)
+      // const amountInTokenUnits = tronWeb.toSun(usdtAmount);
 
-        // // Call the approve function on the token contract
-        // const response = await tokenContract.approve(preSaleAddress, amountInTokenUnits).send({
-        //   // shouldPollResponse: true,
-        //   feeLimit: 100000000, // Adjust the fee limit as needed
-        //   callValue: 0,
-        //   from: senderAddress,
-        // });
-        // setStatus("Approval successful!");
-        // setIsApproved(true);
-        // console.log('Transaction successful:', response);
-        //   } else if (tokenNumber == 2) {
-        const tronWeb = window.tronWeb;
+      // // Call the approve function on the token contract
+      // const response = await tokenContract.approve(preSaleAddress, amountInTokenUnits).send({
+      //   // shouldPollResponse: true,
+      //   feeLimit: 100000000, // Adjust the fee limit as needed
+      //   callValue: 0,
+      //   from: senderAddress,
+      // });
+      // setStatus("Approval successful!");
+      // setIsApproved(true);
+      // console.log('Transaction successful:', response);
+      //   } else if (tokenNumber == 2) {
+      const tronWeb = window.tronWeb;
 
-        // Contract address of the TRC20 token (e.g., USDT)
-        const usdtContractAddress = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t";
+      // Contract address of the TRC20 token (e.g., USDT)
+      const usdtContractAddress = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
 
-        // const senderAddress = await tronWeb.defaultAddress.base58;
-        const senderAddress = window.tronWeb.defaultAddress.base58;
+      // const senderAddress = await tronWeb.defaultAddress.base58;
+      const senderAddress = window.tronWeb.defaultAddress.base58;
 
-        // Create a contract instance using the token address and ABI
-        const tokenContract = tronWeb.contract(usdtAb, usdtContractAddress);
+      // Create a contract instance using the token address and ABI
+      const tokenContract = tronWeb.contract(usdtAb, usdtContractAddress);
 
-        // Convert the amount to approve to token units (considering token decimals)
-        const amountInTokenUnits = tronWeb.toSun(usdtAmount);
+      // Convert the amount to approve to token units (considering token decimals)
+      const amountInTokenUnits = tronWeb.toSun(usdtAmount);
 
-        // Call the approve function on the token contract
-        const response = await tokenContract
-          .approve(preSaleAddress, amountInTokenUnits)
-          .send({
-            // shouldPollResponse: true,
-            feeLimit: 100000000, // Adjust the fee limit as needed
-            callValue: 0,
-            from: senderAddress,
-          });
-        setStatus("Approval successful!");
-        setIsApproved(true);
-        console.log("Transaction successful:", response);
+      // Call the approve function on the token contract
+      const response = await tokenContract.approve(preSaleAddress, amountInTokenUnits).send({
+        // shouldPollResponse: true,
+        feeLimit: 100000000, // Adjust the fee limit as needed
+        callValue: 0,
+        from: senderAddress,
+      });
+      setStatus("Approval successful!");
+      setIsApproved(true);
+      console.log('Transaction successful:', response);
         // } else {
         //   console.error("No Token Selected");
         // }
@@ -223,8 +249,10 @@ function App() {
     }
   };
 
+
   const callPresaleContractFunction = async () => {
     try {
+
       const buttonElement = document.getElementById("approve_connect_btn");
 
       // Get the data-id attribute value
@@ -244,17 +272,17 @@ function App() {
       // console.log('Transaction successful:', result);
       // setStatus('Buy successfully!');
       // } else if (tokenNumber == 2) {
-      const tronWeb = window.tronWeb;
-      const contractInstance = tronWeb.contract(preSaleAbi, preSaleAddress);
-      const usdtAmountInSun = window.tronWeb.toSun(usdtAmount);
-      const senderAddress = window.tronWeb.defaultAddress.base58;
-      const result = await contractInstance.buyWithUSTD(usdtAmountInSun).send({
-        feeLimit: 100000000, // Adjust the fee limit accordingly
-        callValue: 0, // For buying with USDT, you might need to send TRX, set the value in SUN
-        from: senderAddress,
-      });
-      console.log("Transaction successful:", result);
-      setStatus("Buy successfully!");
+        const tronWeb = window.tronWeb
+        const contractInstance = tronWeb.contract(preSaleAbi, preSaleAddress);
+        const usdtAmountInSun = window.tronWeb.toSun(usdtAmount);
+        const senderAddress = window.tronWeb.defaultAddress.base58;
+        const result = await contractInstance.buyWithUSDT(usdtAmountInSun).send({
+          feeLimit: 100000000, // Adjust the fee limit accordingly
+          callValue: 0, // For buying with USDT, you might need to send TRX, set the value in SUN
+          from: senderAddress,
+        });
+        console.log('Transaction successful:', result);
+        setStatus('Buy successfully!');
       // } else {
       //   console.error("ERROR in Contract");
       // }
@@ -264,34 +292,37 @@ function App() {
     }
   };
 
+
   const handleButtonClick = async () => {
-    if (usdtAmount > 0) {
+ //   if(usdtAmount>5000){
       if (!isApproved) {
         await approve();
       } else {
         callPresaleContractFunction();
       }
-    }
+  //  }
   };
 
   const importToken = async () => {
+
     if (window.tronWeb && window.tronWeb.ready) {
       const tronweb = window.tronLink; // Updated: Access window.tronLink instead of tronLink
       try {
         tronweb.request({
-          method: "wallet_watchAsset",
+          method: 'wallet_watchAsset',
           params: {
-            type: "contract",
+            type: 'contract',
             options: {
-              address: "TY8hfFKj3pcA8EiNjZT5tjzHwfYStF88G6",
+              address: 'TY8hfFKj3pcA8EiNjZT5tjzHwfYStF88G6',
             },
           },
         });
       } catch (e) {
-        console.error("Error requesting to watch token:", e);
+        console.error('Error requesting to watch token:', e);
       }
     }
-  };
+  }
+
 
   function getUSDTValue() {
     // Replace this with your actual API call to fetch the USDT value
