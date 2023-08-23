@@ -371,7 +371,7 @@ input[type="number"]::-webkit-outer-spin-button {
 /* Partner Container */
 
 .partner-container {
-  /* background: linear-gradient(
+  background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0) 0%,
     rgba(255, 255, 255, 0.7) 15%,
@@ -379,8 +379,8 @@ input[type="number"]::-webkit-outer-spin-button {
     rgba(255, 255, 255, 1) 75%,
     rgba(255, 255, 255, 0.7) 85%,
     rgba(255, 255, 255, 0) 100%
-  ); */
-  background-color: #f0f0f0;
+  );
+  /* background-color: #f0f0f0; */
   padding: 10px;
   border: none;
   border-radius: 8px;
