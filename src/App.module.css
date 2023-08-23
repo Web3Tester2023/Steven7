@@ -1,0 +1,349 @@
+
+
+.head-sec{
+background-color: #000;
+background-repeat: no-repeat;
+background-attachment: scroll;
+text-align: center;
+margin:0 auto !important;
+}
+
+.logo{
+  background-image: url('/public/logo.png');
+}
+
+.head{
+  text-align: left;
+  padding: 10px;
+}
+
+.btn-1{
+  background-color: aliceblue;
+  padding: 10px 40px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-size: 18px;
+}
+.btn-1:hover{
+  background-color: transparent;
+  padding: 10px 40px;
+  border: 1px solid aliceblue;
+  border-radius: 10px;
+  font-size: 18px;
+  color: #fff;
+  transition: .4s ease-out;
+  font-weight: 700;
+}
+
+
+
+
+.top-header-shape:before{
+    content: " ";
+    /* background-image: url('/public/hero-shape.png'); */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width:450px;
+    height: 350px;
+    z-index: 1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    opacity: .5;
+    animation: top-shape 2s infinite ease-out;
+}
+@keyframes top-shape{
+    0%{
+        top:0px;
+        left:-20px;
+    }
+    50%{
+        top:0px;
+        left:0px;
+    }
+    100%{
+        top:0px;
+        left:-20px;
+    }
+}
+
+.top-header-shape:after{
+    content: " ";
+    /* background-image: url('/public/coin-pedia.png'); */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 320px;
+    height: 320px;
+    z-index: 1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    opacity: .7;
+    animation: top-shape2 2s infinite ease-out;
+}
+@keyframes top-shape2{
+    0%{
+        top:0px;
+        left:-20px;
+    }
+    50%{
+        top:0px;
+        left:-40px;
+    }
+    100%{
+        top:0px;
+        left:-20px;
+    }
+}
+
+.join-social {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; Spacing between the elements */
+  /* background-color: #333; */
+  padding: 10px;
+}
+
+.social-icons {
+  display: flex; /* Flex container for the icons */
+  flex-wrap: wrap;
+  align-items: center;
+  margin-left: 50px;
+  justify-content: space-evenly;
+}
+
+
+.social-icons i {
+  margin-right: 10px;
+  font-size: 20px;
+  background-color: #000000;
+  color: white; /* Add a color to make the icon visible on the background */
+  border-radius: 50%; /* Make the icon circular by setting border-radius to 50% */
+  padding: 10px; /* Add some padding to give space around the circular icon */
+}
+
+.marquee-container {
+  overflow-x: hidden !important;
+  display: flex !important;
+  flex-direction: row !important;
+  position: relative;
+  width: var(--width);
+  transform: var(--transform);
+}
+
+.imges-gap{
+  margin: 0px 10px;
+}
+
+.img-bg{
+  background-color: transparent;
+}
+
+.token-main-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+.token-select{
+  background-color: #fff;
+  border-radius: 5px;
+  border: none;
+}
+.token-select.active {
+  background-color: #000; /* Active background color (black) */
+  color: #fff; /* Active text color (white) */
+}
+.content-sec p{
+  color: #fff;
+}
+
+.content-sec h3{
+  color: #fff;
+}
+
+.content-sec h5{
+  color: #fff;
+}
+
+.content-sec h2{
+  color: #fff;
+}
+
+.content-sec h4{
+  color: #fff;
+}
+
+
+.content-sec2 p{
+  color: #000000;
+}
+
+.content-sec2 h3{
+  color: #000000;
+}
+
+.content-sec2 h5{
+  color: #000000;
+}
+
+.content-sec2 h2{
+  color: #000000;
+}
+
+.content-sec2 h4{
+  color: #000000;
+}
+
+.token{
+  background-color: #000;
+  padding: 10px 20px;
+  width: 500px !important;
+  color: #fff;
+  text-align: center;
+  border: none;
+  border-radius: 10px;
+  transition: 0.3s;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.token:hover{
+  background-color: #fff;
+  color: black;
+}
+.token-text{
+  margin-top:22px;
+}
+
+/* Amount Box */
+
+.amount-box{
+  margin: 20px;
+  display: flex;
+  /* flex-wrap: wrap; */
+  justify-content: space-between;
+  /* align-items: center; */
+  text-align: start;
+}
+
+.bottom-border{
+  outline: none;
+  border: none;
+  border-bottom: 2px solid #adacac; 
+  padding: 5px; 
+  width: 100%; 
+  box-sizing: border-box; 
+}
+.enter-amount label,
+.token-cong label {
+display: block; /* Make the labels display as blocks */
+margin-bottom: 5px; /* Add some space between the label and the input */
+}
+
+.price-per{
+  text-align: end;
+}
+.sale-supply .price-per{
+  font-size: 1.1rem;
+}
+
+
+
+/* Connect Now Part */
+
+.connect-now{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.connect-now-text{
+  text-align: center;
+  width: 330px;
+  align-items: center;
+}
+.connect-now-button{
+  background-color: black;
+  color: white;
+  border: none;
+  width: 180px;
+  height: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: 0.3s;
+  margin-bottom: 20px;
+}
+.connect-now-button:hover{
+  background-color: white;
+  color: black;
+}
+
+/* Partner Container */
+
+.partner-container {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+
+}
+.partner img {
+margin-right: 40px; /* Increase the margin between images */
+}
+
+.partner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  animation: marquee 25s linear infinite; /* Change the animation duration as needed */
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% + 10px)); /* Adjust the translation distance as needed */
+  }
+}
+
+
+@media screen and (max-width:768px) {
+  .top-header-shape:after{
+      display: none;
+  }
+  .top-header-shape:before{
+      display: none;
+  }
+  .price-per{
+      text-align: end;
+  }
+  .sale-supply .price-per{
+      font-size: 1.1rem;
+  }
+  .connect-now-button{
+      margin-bottom: 20px;
+  }
+
+  
+}
+@media screen and (max-width:500px) {
+  .connect-now-text{
+      width: 180px;
+      /* align-items: center; */
+  }
+  .connect-now-button{
+      margin-bottom: 20px;
+  }
+  .partner-container{
+      margin-bottom: 50px;
+  }
+
+  
+}
+
+
