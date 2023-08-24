@@ -6,19 +6,22 @@ import {
   faTwitter,
   faPinterest,
 } from "@fortawesome/free-brands-svg-icons";
+import { FiShoppingCart } from "react-icons/fi";
 import Web3 from "web3";
 import { usdtAb } from "./Componantes/usdtAbi";
 import { usdcABI } from "./Componantes/usdcAbi";
 import { preSaleAbi } from "./Componantes/preSaleAbi";
 import "./css/ArrowAnimation.css";
+import { Tilt } from "react-tilt";
 import Marquee from "react-fast-marquee";
+import CountUp from "react-countup";
 import { BsArrowRight, BsArrowRightCircle } from "react-icons/bs";
 
 function App() {
   const [balance, setBalance] = useState(0);
   const [selectedToken, setSelectedToken] = useState("");
   const [status, setStatus] = useState("");
-  const [usdtAmount, setUsdtAmount] = useState(0);
+  const [usdtAmount, setUsdtAmount] = useState();
   // const [usdcAmount, setUsdcAmount] = useState(0);
   const [isApproved, setIsApproved] = useState(false);
   const [isTokenImported, setIsTokenImported] = useState(false);
@@ -34,6 +37,17 @@ function App() {
     "crypto-image-4.png",
     "crypto-image-5.png",
   ];
+  const defaultOptions = {
+    reverse: false, // reverse the tilt direction
+    max: 35, // max tilt rotation (degrees)
+    perspective: 1000, // Transform perspective, the lower the more extreme the tilt gets.
+    scale: 1.1, // 2 = 200%, 1.5 = 150%, etc..
+    speed: 1000, // Speed of the enter/exit transition
+    transition: true, // Set a transition on enter/exit.
+    axis: null, // What axis should be disabled. Can be X or Y.
+    reset: true, // If the tilt effect has to be reset on exit.
+    easing: "cubic-bezier(.03,.98,.52,.99)", // Easing on enter/exit.
+  };
 
   const handleToggleExpand = () => {
     setIsExpanded((prevState) => !prevState);
@@ -57,7 +71,7 @@ function App() {
       try {
         /* TronWeb is installed */
 
-        const accounts = window.tronWeb.defaultAddress.base58
+        const accounts = window.tronWeb.defaultAddress.base58;
         setWalletAddress(accounts);
         console.log(accounts);
       } catch (err) {
@@ -70,12 +84,10 @@ function App() {
     }
   };
 
-
   const getCurrentWalletConnected = async () => {
     if (typeof window != "undefined" && typeof window.tronWeb != "undefined") {
       try {
-      
-        const accounts = window.tronWeb.defaultAddress.base58
+        const accounts = window.tronWeb.defaultAddress.base58;
         if (accounts.length > 0) {
           setWalletAddress(accounts);
           console.log(accounts);
@@ -106,7 +118,6 @@ function App() {
     }
   };
 
-
   // const handleAmountChange = (e) => {
   //   const amount = parseFloat(e.target.value);
   //   const minAmoutValue = 5000;
@@ -130,7 +141,6 @@ function App() {
   //     // setUsdtAmount(amount);
   //   }
   // };
-
 
   const handleAmountChange = (e) => {
     const amount = parseFloat(e.target.value);
@@ -185,56 +195,58 @@ function App() {
 
         // const radio_button = document.getElementById("USDT");
 
-      //   if (tokenNumber == 1) {
-      //      const tronWeb = window.tronWeb;
+        //   if (tokenNumber == 1) {
+        //      const tronWeb = window.tronWeb;
 
-      // // Contract address of the TRC20 token (e.g., USDT)
-      // const usdcContractAddress = 'TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8';
+        // // Contract address of the TRC20 token (e.g., USDT)
+        // const usdcContractAddress = 'TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8';
 
-      // // const senderAddress = await tronWeb.defaultAddress.base58;
-      // const senderAddress = window.tronWeb.defaultAddress.base58;
+        // // const senderAddress = await tronWeb.defaultAddress.base58;
+        // const senderAddress = window.tronWeb.defaultAddress.base58;
 
-      // // Create a contract instance using the token address and ABI
-      // const tokenContract = tronWeb.contract(usdcABI, usdcContractAddress);
+        // // Create a contract instance using the token address and ABI
+        // const tokenContract = tronWeb.contract(usdcABI, usdcContractAddress);
 
-      // // Convert the amount to approve to token units (considering token decimals)
-      // const amountInTokenUnits = tronWeb.toSun(usdtAmount);
+        // // Convert the amount to approve to token units (considering token decimals)
+        // const amountInTokenUnits = tronWeb.toSun(usdtAmount);
 
-      // // Call the approve function on the token contract
-      // const response = await tokenContract.approve(preSaleAddress, amountInTokenUnits).send({
-      //   // shouldPollResponse: true,
-      //   feeLimit: 100000000, // Adjust the fee limit as needed
-      //   callValue: 0,
-      //   from: senderAddress,
-      // });
-      // setStatus("Approval successful!");
-      // setIsApproved(true);
-      // console.log('Transaction successful:', response);
-      //   } else if (tokenNumber == 2) {
-      const tronWeb = window.tronWeb;
+        // // Call the approve function on the token contract
+        // const response = await tokenContract.approve(preSaleAddress, amountInTokenUnits).send({
+        //   // shouldPollResponse: true,
+        //   feeLimit: 100000000, // Adjust the fee limit as needed
+        //   callValue: 0,
+        //   from: senderAddress,
+        // });
+        // setStatus("Approval successful!");
+        // setIsApproved(true);
+        // console.log('Transaction successful:', response);
+        //   } else if (tokenNumber == 2) {
+        const tronWeb = window.tronWeb;
 
-      // Contract address of the TRC20 token (e.g., USDT)
-      const usdtContractAddress = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
+        // Contract address of the TRC20 token (e.g., USDT)
+        const usdtContractAddress = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t";
 
-      // const senderAddress = await tronWeb.defaultAddress.base58;
-      const senderAddress = window.tronWeb.defaultAddress.base58;
+        // const senderAddress = await tronWeb.defaultAddress.base58;
+        const senderAddress = window.tronWeb.defaultAddress.base58;
 
-      // Create a contract instance using the token address and ABI
-      const tokenContract = tronWeb.contract(usdtAb, usdtContractAddress);
+        // Create a contract instance using the token address and ABI
+        const tokenContract = tronWeb.contract(usdtAb, usdtContractAddress);
 
-      // Convert the amount to approve to token units (considering token decimals)
-      const amountInTokenUnits = tronWeb.toSun(usdtAmount);
+        // Convert the amount to approve to token units (considering token decimals)
+        const amountInTokenUnits = tronWeb.toSun(usdtAmount);
 
-      // Call the approve function on the token contract
-      const response = await tokenContract.approve(preSaleAddress, amountInTokenUnits).send({
-        // shouldPollResponse: true,
-        feeLimit: 100000000, // Adjust the fee limit as needed
-        callValue: 0,
-        from: senderAddress,
-      });
-      setStatus("Approval successful!");
-      setIsApproved(true);
-      console.log('Transaction successful:', response);
+        // Call the approve function on the token contract
+        const response = await tokenContract
+          .approve(preSaleAddress, amountInTokenUnits)
+          .send({
+            // shouldPollResponse: true,
+            feeLimit: 100000000, // Adjust the fee limit as needed
+            callValue: 0,
+            from: senderAddress,
+          });
+        setStatus("Approval successful!");
+        setIsApproved(true);
+        console.log("Transaction successful:", response);
         // } else {
         //   console.error("No Token Selected");
         // }
@@ -249,10 +261,8 @@ function App() {
     }
   };
 
-
   const callPresaleContractFunction = async () => {
     try {
-
       const buttonElement = document.getElementById("approve_connect_btn");
 
       // Get the data-id attribute value
@@ -272,17 +282,17 @@ function App() {
       // console.log('Transaction successful:', result);
       // setStatus('Buy successfully!');
       // } else if (tokenNumber == 2) {
-        const tronWeb = window.tronWeb
-        const contractInstance = tronWeb.contract(preSaleAbi, preSaleAddress);
-        const usdtAmountInSun = window.tronWeb.toSun(usdtAmount);
-        const senderAddress = window.tronWeb.defaultAddress.base58;
-        const result = await contractInstance.buyWithUSDT(usdtAmountInSun).send({
-          feeLimit: 100000000, // Adjust the fee limit accordingly
-          callValue: 0, // For buying with USDT, you might need to send TRX, set the value in SUN
-          from: senderAddress,
-        });
-        console.log('Transaction successful:', result);
-        setStatus('Buy successfully!');
+      const tronWeb = window.tronWeb;
+      const contractInstance = tronWeb.contract(preSaleAbi, preSaleAddress);
+      const usdtAmountInSun = window.tronWeb.toSun(usdtAmount);
+      const senderAddress = window.tronWeb.defaultAddress.base58;
+      const result = await contractInstance.buyWithUSDT(usdtAmountInSun).send({
+        feeLimit: 100000000, // Adjust the fee limit accordingly
+        callValue: 0, // For buying with USDT, you might need to send TRX, set the value in SUN
+        from: senderAddress,
+      });
+      console.log("Transaction successful:", result);
+      setStatus("Buy successfully!");
       // } else {
       //   console.error("ERROR in Contract");
       // }
@@ -292,37 +302,34 @@ function App() {
     }
   };
 
-
   const handleButtonClick = async () => {
- //   if(usdtAmount>5000){
-      if (!isApproved) {
-        await approve();
-      } else {
-        callPresaleContractFunction();
-      }
-  //  }
+    //   if(usdtAmount>5000){
+    if (!isApproved) {
+      await approve();
+    } else {
+      callPresaleContractFunction();
+    }
+    //  }
   };
 
   const importToken = async () => {
-
     if (window.tronWeb && window.tronWeb.ready) {
       const tronweb = window.tronLink; // Updated: Access window.tronLink instead of tronLink
       try {
         tronweb.request({
-          method: 'wallet_watchAsset',
+          method: "wallet_watchAsset",
           params: {
-            type: 'contract',
+            type: "contract",
             options: {
-              address: 'TY8hfFKj3pcA8EiNjZT5tjzHwfYStF88G6',
+              address: "TY8hfFKj3pcA8EiNjZT5tjzHwfYStF88G6",
             },
           },
         });
       } catch (e) {
-        console.error('Error requesting to watch token:', e);
+        console.error("Error requesting to watch token:", e);
       }
     }
-  }
-
+  };
 
   function getUSDTValue() {
     // Replace this with your actual API call to fetch the USDT value
@@ -334,6 +341,11 @@ function App() {
     const usdtValue = getUSDTValue();
     setBalance(usdtValue);
     setSelectedToken(selectedToken);
+  }
+  function truncateAddress(address) {
+    const start = address.slice(0, 5);
+    const end = address.slice(-4);
+    return `${start}.....${end}`;
   }
 
   function selectToken(tokenNumber) {
@@ -394,19 +406,33 @@ function App() {
   return (
     <div className="container-fluid overflow-hidden banner-sec px-0 mx-0" id="">
       <div className="container px-0 ">
-        <div className="head">
-          <div className="row mx-0">
-            <div className="col-lg-8 col-md-8 col justify-content-start">
-              <img className="logo" src="logo.png" alt="" width="70px" />
+        <div
+          className="head px-[2rem] md:px-0"
+          style={{ paddingTop: "2rem", paddingBottom: "1.5rem" }}
+        >
+          <div className="row mx-0 ">
+            <div className="px-0 z-30 col-lg-8 col-md-8 col justify-content-start">
+              <div className="md:px-[2.5rem]">
+                <div className="w-fit">
+                  <a href="http://pointzap.ae/">
+                    <img
+                      href="http://pointzap.ae/"
+                      className="logo cursor-pointer min-w-[50px] w-[60px] min-h-fit md:w-[80px]"
+                      src="pointzap-logo.png"
+                      alt=""
+                    />
+                  </a>
+                </div>
+              </div>
             </div>
             <div className="p-0 col-lg-4 col-md-4 col text-end align-self-center">
-              <button className="wallet-button" onClick={connectWallet}>
+              <button
+                className="wallet-button text-[14px] md:text-[16px]"
+                onClick={connectWallet}
+              >
                 <span className="whitespace-nowrap is-link has-text-weight-bold">
                   {walletAddress && walletAddress.length > 0
-                    ? `${walletAddress.substring(
-                        0,
-                        4
-                      )}...${walletAddress.substring(38)}`
+                    ? `${truncateAddress(walletAddress)}`
                     : "Connect Wallet"}
                 </span>
               </button>
@@ -417,24 +443,24 @@ function App() {
         <div className="container-fluid px-0 mt-5">
           <div className="row mx-0 px-0">
             <div
-              className="part1 mx-0  px-[1rem] md:mx-[1rem]  col-lg-7 col-md-6 col-12 content-sec"
+              className="part1 font-gilroy mx-0  px-[1rem] md:mx-[1rem]  col-lg-7 col-md-6 col-12 content-sec"
               style={{ zIndex: "2" }}
             >
               <div className="px-[1.5rem] md:px-[0.7rem]">
                 <div className="row mx-0 px-0 about-section-title">
-                  <h5>About Pointzap</h5>
+                  <h5 className="font-semibold">About Pointzap</h5>
                   <h2 className="text-[24px] lg:text-[48px]">
                     Revolutionizing Investment Through{" "}
                     <span className="text-[#ff3c00]"> Web3 </span> Technology
                   </h2>
-                  <p style={{ fontSize: 18 }}>
+                  <p className="font-[600]" style={{ fontSize: 18 }}>
                     Pointzap Capital is a revolutionary investment and funding
                     platform at the forefront of innovation, powered by
                     cutting-edge web3 technology. It leverages the BEP20 and
                     TRC20 blockchain standards to provide a seamless experience.
                     Here's how Pointzap Capital functions:
                   </p>
-                  <ul className="flex flex-col gap-y-[0.5rem]">
+                  <ul className="flex font-[600] flex-col gap-y-[0.5rem]">
                     <li className="flex gap-x-[1rem] ">
                       <BsArrowRightCircle className="text-2xl min-w-fit text-[#ff3c00]" />{" "}
                       <span className="text-white">
@@ -464,78 +490,11 @@ function App() {
                   <div class="line"></div>
                 </div>
 
-                {/* <div
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  className={`banner-buttons join-community`}
-                >
-                  <div className="text slider-button">
-                    <span
-                      className={`  ${
-                        isHovered
-                          ? "bg-[white] text-[#FF3B00]"
-                          : "bg-[#FF3B00] text-[white]"
-                      }`}
-                    >
-                      Join Now
-                      <i
-                        className={`flex justify-center items-center bi bi-plus ${
-                          isHovered
-                            ? "bg-[#FF3B00] text-white"
-                            : "bg-white text-[#FF3B00]"
-                        }`}
-                        style={{ display: "flex" }}
-                      >
-                        <div
-                          className={`plus-minus-toggle ${
-                            isHovered
-                              ? " collapsed plus-minus-toggle-hovered-before plus-minus-toggle-hovered-after"
-                              : ""
-                          }`}
-                        ></div>
-                      </i>{" "}
-                    </span>
-                    <div className="icons flex gap-x-[10px]">
-                      <a className="mr-[30px]" style={{ marginLeft: "30px" }}>
-                        <BsArrowRight style={{ color: "white", scale: "2" }} />
-                      </a>
-                      <a
-                        className="social-icon-color mr-[15px]"
-                        href="https://www.facebook.com/pointzap/"
-                      >
-                        <FontAwesomeIcon
-                          className="text-2xl social-icon-single"
-                          icon={faFacebook}
-                        />
-                      </a>
-                      <a
-                        className="mr-[15px]"
-                        href="https://twitter.com/point_zap"
-                      >
-                        <FontAwesomeIcon
-                          className="text-2xl social-icon-single"
-                          icon={faTwitter}
-                        />
-                      </a>
-                      <a
-                        className="mr-[15px]"
-                        href="https://in.pinterest.com/pointzap/"
-                      >
-                        <FontAwesomeIcon
-                          className="text-2xl social-icon-single"
-                          icon={faPinterest}
-                        />
-                      </a>
-                    </div>
-                  </div>
-                </div> */}
-
-                <div class="btn_wrap">
+                {/* <div class="btn_wrap">
                   <span className="flex font-[600] items-center justify-end whitespace-nowrap">
                     Join Now{" "}
-                  
-                      <BsArrowRight className="w-20 h-[25px] mx-[-15px] text-white" />
-                   
+                    
+                    <BsArrowRight className="w-20 h-[20px] mx-[-15px] text-white" />
                   </span>
                   <div class="social-container">
                     <a
@@ -566,65 +525,82 @@ function App() {
                       />
                     </a>
                   </div>
-                </div>
+                </div> */}
+                <div className="flex items-center gap-x-4 flex-row">
+                  <div className=" w-fit  px-[1rem]">
+                    <h1 className="text-[#fff] social-title my-0 font-semibold text-[18px]">
+                      Join us now
+                    </h1>
+                  </div>
 
-                {/* <div
-                className={`join-social  ${isExpanded ? "expanded" : ""}`}
-                onClick={handleToggleExpand}
-              >
-                <div className="join-com">
-                  <h4 style={{ margin: "0px" }}>Join Community</h4>
+                  <div class="follow-company-icon flex m">
+                    <a
+                      class="social-icon-color flex justify-center "
+                      style={{ justifyContent: "center", display: "flex" }}
+                      href="https://www.facebook.com/pointzap/"
+                    >
+                      {" "}
+                      <FontAwesomeIcon
+                        className=" text-xl flex m-auto"
+                        icon={faFacebook}
+                      />
+                    </a>
+                    <a
+                      class="social-icon-color1 flex justify-center "
+                      style={{ justifyContent: "center", display: "flex" }}
+                      href="https://twitter.com/point_zap"
+                    >
+                      {" "}
+                      <FontAwesomeIcon
+                        className=" text-xl flex m-auto"
+                        icon={faTwitter}
+                      />
+                    </a>
+
+                    <a
+                      class="social-icon-color3 flex justify-center "
+                      style={{ justifyContent: "center", display: "flex" }}
+                      href="https://in.pinterest.com/pointzap/"
+                    >
+                      {" "}
+                      <FontAwesomeIcon
+                        className=" text-xl flex m-auto"
+                        icon={faPinterest}
+                      />
+                    </a>
+                  </div>
                 </div>
-                <div style={{ marginLeft: "30px" }}>
-                  <BsArrowRight style={{ color: "white", scale: "2" }} />
-                </div>
-                <div className={`social-icons`}>
-                  <a href="https://www.facebook.com/pointzap/">
-                    <FontAwesomeIcon
-                      className="social-icon-single"
-                      icon={faFacebook}
-                    />
-                  </a>
-                  <a href="https://twitter.com/point_zap">
-                    <FontAwesomeIcon
-                      className="social-icon-single"
-                      icon={faTwitter}
-                    />
-                  </a>
-                  <a href="https://in.pinterest.com/pointzap/">
-                    <FontAwesomeIcon
-                      className="social-icon-single"
-                      icon={faPinterest}
-                    />
-                  </a>
-                </div>
-              </div> */}
               </div>
 
               <div className="partner-container">
                 <div style={{ overflow: "hidden" }}>
-                  <Marquee pauseOnHover autoFill={true} speed={100}>
-                    <div style={{ position: "relative" }}>
-                      <div className="image_wrapper">
-                        <img src="/crypto-image-1.png" alt="" width="100px" />
+                  <Marquee pauseOnHover autoFill={true} speed={60}>
+                    <div className="my-auto" style={{ position: "relative" }}>
+                      <div className="image_wrapper  my-auto">
+                        <img
+                          src="/crypto-image-1.png"
+                          alt=""
+                          width="150px"
+                          height={"150px"}
+                        />
                       </div>
                     </div>
-                    <div style={{ position: "relative" }}>
+                    <div className="my-auto" style={{ position: "relative" }}>
                       <div className="image_wrapper">
                         <img src="/crypto-image-2.png" alt="" width="100px" />
                       </div>
                     </div>
-                    <div style={{ position: "relative" }}>
+                    <div className="my-auto" style={{ position: "relative" }}>
                       <div className="image_wrapper">
                         <img src="/crypto-image-3.png" alt="" width="100px" />
                       </div>
                     </div>
-                    <div style={{ position: "relative" }}>
+                    <div className="my-auto" style={{ position: "relative" }}>
                       <div className="image_wrapper">
                         <img src="/crypto-image-4.png" alt="" width="100px" />
                       </div>
                     </div>
-                    <div style={{ position: "relative" }}>
+                    <div className="my-auto" style={{ position: "relative" }}>
                       <div className="image_wrapper">
                         <img src="/crypto-image-5.png" alt="" width="100px" />
                       </div>
@@ -634,15 +610,19 @@ function App() {
               </div>
             </div>
 
-            <div className="part2 p-0 col-lg-5 sm:rounded-xl overflow-hidden col-md-6 col-12 content-sec2 align-self-center text-center right-banner pb-4">
+            <div className="part2 font-gilroy p-0 col-lg-5 sm:rounded-xl overflow-hidden col-md-6 col-12 content-sec2 align-self-center text-center right-banner pb-4">
               <div className="join-presale ">
                 <div className="row relative overflow-hidden mx-0 bg-[#FF3C00] w-full pt-4 ">
-                  <h3 className="md:text-[30px] font-[400] text-white">
-                    <strong>Join the Presale</strong>
+                  <h3 className="font-gilroy-bold presale-title-text font-extrabold text-[24px] md:text-[32px] text-white">
+                    Join the Presale
                   </h3>
-                  <p className="text-white ">
-                    <strong className="italic">Goal:</strong>{" "}
-                    <span className="text-[18px]"> 200,000 USD</span>
+                  <p className=" whitespace-nowrap ">
+                    <span className="italic text-[#fff3df]">Goal:</span>{" "}
+                    <span className="font-bold text-[20px] text-[#fff3df] ">
+                      {" "}
+                      <CountUp end={200000} />{" "}
+                      <span className="text-base">USD</span>
+                    </span>
                   </p>
                   <div class="preSale-shape">
                     <div class="preSale-thumb1">
@@ -653,16 +633,16 @@ function App() {
                 <div className="px-3">
                   <div className="amount-box flex gap-x-3">
                     <div className="sale-supply">
-                      <h6 className="font-[600] md:text-[19px]">Sale Supply</h6>
-                      <p className="font-[400] text-[#686868]">
-                        550 million PZAP
-                      </p>
+                      <h6 className="text-black/70 font-semibold md:text-[18px]">
+                        Sale Supply
+                      </h6>
+                      <p className="font-[600]">550 million PZAP</p>
                     </div>
                     <div className="price-per">
-                      <h6 className="font-[600] md:text-[19px]">
+                      <h6 className="text-black/70 font-semibold md:text-[18px]">
                         Price Per Token
                       </h6>
-                      <p className="font-[400]">0.1300 USD</p>
+                      <p className="font-[600]">0.1300 USD</p>
                     </div>
                   </div>
 
@@ -672,20 +652,35 @@ function App() {
                       Add Token{" "}
                     </button>
                   </div>
-
-                  <div class="buyNow_button mt-2">
-                    <button class="btn" type="submit">
-                      {" "}
-                      Buy Now{" "}
-                    </button>
-                     {/* <p className="balance">Your Balance: {balance} USDT</p> */}
+                  <div className="mt-6 flex justify-center flex-row gap-x-4">
+                    <Tilt options={defaultOptions}>
+                      <img
+                        className="brand-logos"
+                        src="/pointzap-logo.png"
+                        width={"30px"}
+                      />
+                    </Tilt>
+                    <Tilt options={defaultOptions}>
+                      <img
+                        className="brand-logos"
+                        src="/usdt-logo.png"
+                        width={"30px"}
+                      />
+                    </Tilt>
+                    <Tilt options={defaultOptions}>
+                      <img
+                        className="brand-logos"
+                        src="/tron-logo.png"
+                        width={"30px"}
+                      />
+                    </Tilt>
                   </div>
-                 
+
                   <div className="token-text">
                     <div class="chooseToken-title relative ">
                       <h3>
                         {" "}
-                        <div className="flex mx-auto relative z-10 px-2 bg-white w-fit">
+                        <div className="flex font-semibold mx-auto relative z-10 px-2 bg-[#f5f5f5] w-fit">
                           Choose Token
                         </div>
                       </h3>
@@ -716,7 +711,7 @@ function App() {
                   <div className="amount-box flex flex-col md:flex-row gap-y-4 mt-[1rem]">
                     <div className="enter-amount w-full md:w-[45%]">
                       <label
-                        className="font-[700] lg:text-[18px] text-black/80"
+                        className="font-[700] lg:text-[16px] text-black/70"
                         htmlFor=""
                       >
                         Enter Amount
@@ -741,7 +736,7 @@ function App() {
                     </div>
                     <div className="token-cong w-full md:w-[45%]">
                       <label
-                        className="font-[700] lg:text-[18px] text-black/80"
+                        className="font-[700] lg:text-[16px] text-black/70"
                         htmlFor=""
                       >
                         PZAP Tokens
@@ -761,7 +756,7 @@ function App() {
 
                   <div className="connect-now">
                     <div className="connect-now-text">
-                      <p>
+                      <p className="text-sm font-semibold">
                         Please click the button twice. <br /> First time to
                         approve and second time to buy.
                       </p>
